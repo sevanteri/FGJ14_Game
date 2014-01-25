@@ -5,6 +5,7 @@ Rectangle {
     signal clicked
 
     property alias text: txt.text
+    property alias font: txt.font
 
     Text {
         id: txt

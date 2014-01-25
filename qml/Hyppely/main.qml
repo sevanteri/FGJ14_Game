@@ -12,37 +12,39 @@ Rectangle {
         y: screen.height/2 - height/2
     }
 
-    Button {
-        id: quitButton
-        height: 40
-        width: 100
-        text: "Quit"
-        onClicked: {
-            Qt.quit();
+
+    ListModel {
+        id: buttons
+        ListElement {
+            title: "Quit"
+            action: "Qt.quit()"
+        }
+        ListElement {
+            title: "Restart"
+            action: "scene.restart()"
         }
     }
 
-    Button {
-        id: createButton
+
+    ListView {
+        id: buttonList
         height: 40
-        width: 100
-        text: "Create World"
+        width: parent.width
 
-        anchors.left: quitButton.right
-        anchors.leftMargin: 10
+        orientation: Qt.Horizontal
+        spacing: 5
 
-        onClicked: scene.createWorld();
-    }
+        model: buttons
 
-    Button {
-        height: 40
-        width: 100
-        text: "Show win text"
+        delegate: Button {
+            height: 40
+            width: 100
 
-        anchors.left: createButton.right
-        anchors.leftMargin: 10
+            font.pointSize: 12
 
-        onClicked: scene.showWinText();
+            text: title
+            onClicked: eval(action);
+        }
     }
 
 }

@@ -35,11 +35,13 @@ function init() {
 function startMap(n) {
     map = Maps.maps[n];
 
+    player.disableAnimations();
     player.px = map.startpos[0];
     player.py = map.startpos[1];
 
     world.color = "red"
     world.state = "normal"
+    player.enableAnimations();
 }
 
 function handleKB(event) {
@@ -145,7 +147,7 @@ function createWorld() {
                                 {
                                     "bx":x,
                                     "by":y,
-                                    "visible": map.map[y][x]&world.colorN,
+                                    "opacity": map.map[y][x]&world.colorN,
                                     "colorN": map.map[y][x]
                                 }
                                 )

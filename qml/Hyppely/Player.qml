@@ -21,7 +21,7 @@ Rectangle {
         id: xBehavior
         PropertyAnimation {
             id:xAnim
-            duration: 100
+            duration: 100 * Math.abs(to - from) + 1
             onRunningChanged: {
                 moving = running;
             }
@@ -32,7 +32,7 @@ Rectangle {
         id: yBehavior
         PropertyAnimation {
             id:yAnim
-            duration: 100
+            duration: 100 * Math.abs(to - from) + 1
             onRunningChanged: {
                 moving = running;
             }

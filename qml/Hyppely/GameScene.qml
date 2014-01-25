@@ -53,13 +53,14 @@ Item {
 
 
 
+        // just for debugging
         MouseArea {
             anchors.fill: parent
             onClicked: {
                 player.px = mouseX/Conf.gridWidth;
                 player.py = mouseY/Conf.gridHeight;
             }
-            enabled: true
+            enabled: false
         }
         Component.onCompleted: Game.init();
     }
@@ -107,12 +108,8 @@ Item {
     }
 
 
-    function createWorld() {
-        Game.createWorld();
-    }
-
-    function runPhys() {
-        Game.handlePhysics();
+    function restart() {
+        Game.startMap(0);
     }
 
     function showWinText() {
