@@ -25,7 +25,10 @@ var nextLeftOrientation = {
 };
 
 function init() {
-    map = Maps.map1Red;
+    map = Maps.map1.map;
+
+    player.px = Maps.map1.startpos[0];
+    player.py = Maps.map1.startpos[1];
 
     world.rotatingChanged.connect(handlePhysics);
     world.colorChanged.connect(handleColorChanged);
@@ -68,11 +71,19 @@ function handleColorChanged() {
     }
 }
 
+function startMap() {
+    world.state = "normal"
+    world.color = "red"
+    player.px = Maps.map1.startpos[0];
+    player.py = Maps.map1.startpos[1];
+}
+
 function collidesWithBorder(px, py) {
 
     if (px < 0 || px >= Conf.gridXCount |
             py < 0 || py >= Conf.gridYCount)
     {
+        startMap();
         return true;
     }
 

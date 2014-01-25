@@ -15,7 +15,7 @@ Image {
             name: "red"
             PropertyChanges {
                 target: brick
-                source: "qrc:///bricks/images/brick24.png"
+                source: "qrc:///bricks/images/redbrick.png"
             }
         },
 
@@ -31,7 +31,7 @@ Image {
             name: "green"
             PropertyChanges {
                 target: brick
-                source: "qrc:///bricks/images/blubrick.png"
+                source: "qrc:///bricks/images/greenbrick.png"
             }
         }
     ]

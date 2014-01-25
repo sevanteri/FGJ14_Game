@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/bricks">
-        <file>images/brick24.png</file>
+        <file>images/redbrick.png</file>
         <file>images/blubrick.png</file>
+        <file>images/greenbrick.png</file>
     </qresource>
 </RCC>
