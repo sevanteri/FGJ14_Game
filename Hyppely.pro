@@ -18,3 +18,6 @@ qtcAddDeployment()
 
 OTHER_FILES += \
     qml/Hyppely/Game.js
+
+RESOURCES += \
+    images.qrc

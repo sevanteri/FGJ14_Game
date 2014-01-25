@@ -3,98 +3,41 @@
 
 var map;
 var blockComp;
-var blocks;
+var blocks = [];
 
 function init() {
     map = Maps.map1Red;
-    blocks = map.slice(0); // clone
 
-    player.movingChanged.connect(handlePhysics);
+    world.rotatingChanged.connect(handlePhysics);
+    world.colorChanged.connect(handleColorChanged);
 
     createWorld();
 }
 
 function handleKB(event) {
     if (!player.moving) {
-        if (event.key === Qt.Key_Up) handleUp();
-        else if (event.key === Qt.Key_Down) handleDown();
-        else if (event.key === Qt.Key_Left) handleLeft();
-        else if (event.key === Qt.Key_Right) handleRight();
+        if (event.key === Qt.Key_Z) turnRed();
+        else if (event.key === Qt.Key_X) turnGreen();
+        else if (event.key === Qt.Key_C) turnBlue();
 
-        else if (event.key === Qt.Key_Z) handleRotateLeft();
-        else if (event.key === Qt.Key_X) handleRotateRight();
+        else if (event.key === Qt.Key_Left) handleRotateLeft();
+        else if (event.key === Qt.Key_Right) handleRotateRight();
     }
 }
-
-
-function handleLeft() {
-    moveTo(-1, 0);
+function turnRed() {
+    world.color = "red";
+}
+function turnGreen() {
+    world.color = "green"
+}
+function turnBlue() {
+    world.color = "blue"
 }
 
-function handleRight() {
-    moveTo(1, 0);
-}
-
-function handleUp() {
-    jump();
-}
-
-function handleDown() {
-    moveTo(0, 1);
-}
-
-function moveTo(px, py) {
-    var collides = false;
-
-    var helper = py;
-    if (world.state === "left") {
-        py = px;
-        px = -helper;
+function handleColorChanged() {
+    for (var brick in blocks) {
+        blocks[brick].state = world.color;
     }
-    else if (world.state === "inverted") {
-        py = -py;
-        px = -px;
-    }
-    else if (world.state === "right") {
-        py = -px;
-        px = helper;
-    }
-
-    var newPx = player.px + px;
-    var newPy = player.py + py;
-
-    //    console.log(player.px, newPx, player.py, newPy);
-
-    collides = collidesWithBorder(newPx, newPy);
-    collides = (collides || collidesWithBoxes(newPx, newPy));
-    if (!collides) {
-//        player.moving = true;
-        player.px = newPx;
-        player.py = newPy;
-    }
-//    player.moving = false;
-}
-
-function jump() {
-    var py = -4;
-    var px = 4;
-    var helper = py;
-    if (world.state === "left") {
-        py = px;
-        px = -helper;
-    }
-    else if (world.state === "inverted") {
-        py = -py;
-        px = -px;
-    }
-    else if (world.state === "right") {
-        py = -px;
-        px = helper;
-    }
-
-    player.px += px;
-    player.py += py;
-
 }
 
 function collidesWithBorder(px, py) {
@@ -127,12 +70,10 @@ var nextLeftOrientation = {
 function handleRotateLeft() {
     world.turningLeft = true;
     world.state = nextLeftOrientation[world.state];
-    handlePhysics();
 }
 function handleRotateRight() {
     world.turningLeft = false;
     world.state = nextRightOrietation[world.state];
-    handlePhysics();
 }
 
 var downDir = {
@@ -142,7 +83,7 @@ var downDir = {
     "left": [-1, 0]
 }
 function handlePhysics() {
-    if (!player.moving) {
+    if (!player.moving && !world.rotating) {
         var ddir = downDir[world.state];
 
         var newPx = player.px;
@@ -164,7 +105,7 @@ function createWorld() {
     for (var y=0; y<map.length; y++) {
         for (var x=0; x<map[y].length; x++) {
             if (map[y][x])
-                blocks[y][x] = blockComp.createObject(world, {"bx":x, "by":y});
+                blocks.push(blockComp.createObject(world, {"bx":x, "by":y}));
         }
     }
 

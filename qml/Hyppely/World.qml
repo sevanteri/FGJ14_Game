@@ -2,16 +2,18 @@ import QtQuick 2.0
 
 import "Config.js" as Conf
 
-Rectangle {
+Item {
     id: world
     width: 24*Conf.gridWidth
     height: 16*Conf.gridHeight
     x: scene.width/2 - width/2
     y: scene.height/2 - height/2
 
-    color: "white"
+    property string color: "red"
+    property int colorN: 4
 
     property bool turningLeft: false
+    property bool rotating: false
 
     states: [
         State {
@@ -47,13 +49,15 @@ Rectangle {
 
     transitions: [
         Transition {
+            onRunningChanged: rotating = running
             RotationAnimation {
                 direction: (world.turningLeft) ?
                                RotationAnimation.Counterclockwise :
                                RotationAnimation.Clockwise
+
             }
         }
     ]
 
-
+//    onRotatingChanged: console.log("rotating");
 }

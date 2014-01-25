@@ -8,6 +8,8 @@ Rectangle {
     property int px;
     property int py;
 
+    property int facing: 1
+
     x: px*Conf.gridWidth
     y: py*Conf.gridHeight
 
