@@ -6,6 +6,35 @@ Item {
     id: scene
     anchors.fill: parent
 
+    Image {
+        id: background
+        source: "qrc:///backgrounds/images/redcave.png"
+        anchors.centerIn: world
+        states: [
+            State {
+                name: "red"
+                PropertyChanges {
+                    target: background
+                    source: "qrc:///backgrounds/images/redcave.png"
+                }
+            },
+            State {
+                name: "blue"
+                PropertyChanges {
+                    target: background
+                    source: "qrc:///backgrounds/images/redcave.png"
+                }
+            },
+            State {
+                name: "green"
+                PropertyChanges {
+                    target: background
+                    source: "qrc:///backgrounds/images/redcave.png"
+                }
+            }
+        ]
+    }
+
     World {
         id: world
 
@@ -18,6 +47,11 @@ Item {
             width: Conf.gridWidth
             height: width
         }
+
+        onColorChanged: background.state = world.color
+
+
+
 
         MouseArea {
             anchors.fill: parent

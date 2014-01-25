@@ -4,4 +4,7 @@
         <file>images/blubrick.png</file>
         <file>images/greenbrick.png</file>
     </qresource>
+    <qresource prefix="/backgrounds">
+        <file>images/redcave.png</file>
+    </qresource>
 </RCC>
