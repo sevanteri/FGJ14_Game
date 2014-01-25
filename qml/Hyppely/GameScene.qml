@@ -6,26 +6,72 @@ Item {
     id: scene
     anchors.fill: parent
 
-    Component {
-        World {
-            id: world
+    World {
+        id: world
 
-            Player {
-                id: player
-                width: Conf.gridWidth
-                height: width
+        x: parent.width/2 - width/2
+//        x: parent.width
+        y: parent.height/2 - height/2
+
+        Player {
+            id: player
+            width: Conf.gridWidth
+            height: width
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                player.px = mouseX/Conf.gridWidth;
+                player.py = mouseY/Conf.gridHeight;
+            }
+            enabled: true
+        }
+        Component.onCompleted: Game.init();
+    }
+
+
+    Text {
+        id: winText
+        text: "Fantastic!!"
+        visible: false
+        color: "white"
+
+        opacity: 0
+
+        anchors.centerIn: scene
+        font.pointSize: 0
+
+        SequentialAnimation {
+            id: winAnim
+            ParallelAnimation {
+                PropertyAnimation {
+                    target: winText
+                    property: "font.pointSize"
+
+                    from: 1
+                    to: 100
+                }
+                PropertyAnimation {
+                    target: winText
+                    property: "opacity"
+                    from: 0
+                    to: 1
+                }
             }
 
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    player.px = mouseX/Conf.gridWidth;
-                    player.py = mouseY/Conf.gridHeight;
-                }
-                enabled: true
+            PropertyAnimation {
+                target: winText
+                property: "opacity"
+                from: 1
+                to: 0
+                easing.type: Easing.InCubic
+                duration: 1000
             }
         }
+
     }
+
 
     function createWorld() {
         Game.createWorld();
@@ -35,7 +81,11 @@ Item {
         Game.handlePhysics();
     }
 
-    Component.onCompleted: Game.init();
+    function showWinText() {
+        winText.visible = true;
+        winAnim.start();
+
+    }
 
     focus: true
     Keys.onPressed: Game.handleKB(event);

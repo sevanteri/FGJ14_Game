@@ -4,6 +4,7 @@
 var map;
 var blockComp;
 var blocks = [];
+var endBlock;
 
 var downDir = {
     "normal": [0, 1],
@@ -25,16 +26,15 @@ var nextLeftOrientation = {
 };
 
 function init() {
-    map = Maps.map1;
-
     world.rotatingChanged.connect(handlePhysics);
     world.colorChanged.connect(handleColorChanged);
-
+    startMap(0);
     createWorld();
-    startMap();
 }
 
-function startMap() {
+function startMap(n) {
+    map = Maps.maps[n];
+
     player.px = map.startpos[0];
     player.py = map.startpos[1];
 
@@ -94,6 +94,10 @@ function collidesWithBoxes(px, py) {
     return map.map[py][px]&world.colorN;
 }
 
+function isAtEnd() {
+    return (player.px === map.endpos[0] && player.py === map.endpos[1]);
+}
+
 
 function handleRotateLeft() {
     world.turningLeft = true;
@@ -122,6 +126,10 @@ function handlePhysics() {
 
         player.px = newPx;
         player.py = newPy;
+
+        if (isAtEnd()) {
+            scene.showWinText();
+        }
     }
 }
 
@@ -144,5 +152,12 @@ function createWorld() {
                             );
         }
     }
+
+    // add end position
+    var endBlockComp = Qt.createComponent("EndBlock.qml");
+    endBlock = endBlockComp.createObject(world, {
+                                  "x": map.endpos[0]*Conf.gridWidth,
+                                  "y": map.endpos[1]*Conf.gridHeight
+                              });
 
 }

@@ -6,8 +6,6 @@ Item {
     id: world
     width: 24*Conf.gridWidth
     height: 16*Conf.gridHeight
-    x: scene.width/2 - width/2
-    y: scene.height/2 - height/2
 
     property string color: "red"
     property int colorN: 4

@@ -37,15 +37,12 @@ Rectangle {
     Button {
         height: 40
         width: 100
-        text: "Run physics"
+        text: "Show win text"
 
         anchors.left: createButton.right
         anchors.leftMargin: 10
 
-        onClicked: scene.runPhys();
+        onClicked: scene.showWinText();
     }
-
-
-
 
 }
