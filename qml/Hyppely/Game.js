@@ -5,6 +5,25 @@ var map;
 var blockComp;
 var blocks = [];
 
+var downDir = {
+    "normal": [0, 1],
+    "right": [1, 0],
+    "inverted": [0, -1],
+    "left": [-1, 0]
+}
+var nextRightOrietation = {
+    "normal":"right",
+    "right":"inverted",
+    "inverted":"left",
+    "left":"normal"
+};
+var nextLeftOrientation = {
+    "normal":"left",
+    "left":"inverted",
+    "inverted":"right",
+    "right":"normal"
+};
+
 function init() {
     map = Maps.map1Red;
 
@@ -35,8 +54,17 @@ function turnBlue() {
 }
 
 function handleColorChanged() {
-    for (var brick in blocks) {
-        blocks[brick].state = world.color;
+    for (var b in blocks) {
+        var brick = blocks[b]
+        brick.state = world.color;
+        brick.visible = brick.colorN&world.colorN;
+    }
+    handlePhysics();
+    if (collidesWithBoxes(player.px, player.py)) {
+        var ddir = downDir[world.state];
+
+        player.px -= ddir[0];
+        player.py -= ddir[1];
     }
 }
 
@@ -52,21 +80,10 @@ function collidesWithBorder(px, py) {
 }
 
 function collidesWithBoxes(px, py) {
-    return map[py][px];
+    return map[py][px]&world.colorN;
 }
 
-var nextRightOrietation = {
-    "normal":"right",
-    "right":"inverted",
-    "inverted":"left",
-    "left":"normal"
-};
-var nextLeftOrientation = {
-    "normal":"left",
-    "left":"inverted",
-    "inverted":"right",
-    "right":"normal"
-};
+
 function handleRotateLeft() {
     world.turningLeft = true;
     world.state = nextLeftOrientation[world.state];
@@ -76,12 +93,7 @@ function handleRotateRight() {
     world.state = nextRightOrietation[world.state];
 }
 
-var downDir = {
-    "normal": [0, 1],
-    "right": [1, 0],
-    "inverted": [0, -1],
-    "left": [-1, 0]
-}
+
 function handlePhysics() {
     if (!player.moving && !world.rotating) {
         var ddir = downDir[world.state];
@@ -105,7 +117,17 @@ function createWorld() {
     for (var y=0; y<map.length; y++) {
         for (var x=0; x<map[y].length; x++) {
             if (map[y][x])
-                blocks.push(blockComp.createObject(world, {"bx":x, "by":y}));
+                blocks.push(
+                            blockComp.createObject(
+                                world,
+                                {
+                                    "bx":x,
+                                    "by":y,
+                                    "visible": map[y][x]&world.colorN,
+                                    "colorN": map[y][x]
+                                }
+                                )
+                            );
         }
     }
 

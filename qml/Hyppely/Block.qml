@@ -7,6 +7,9 @@ Image {
     property int bx;
     property int by;
 
+    property int colorN: 4
+    state: "red"
+
     states: [
         State {
             name: "red"
@@ -38,7 +41,6 @@ Image {
 
     width: Conf.gridWidth
     height: Conf.gridHeight
-//    color: "red"
 
     source: "qrc:///bricks/images/brick24.png"
 

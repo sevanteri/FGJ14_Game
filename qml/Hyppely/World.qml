@@ -15,6 +15,10 @@ Item {
     property bool turningLeft: false
     property bool rotating: false
 
+    onColorChanged: colorN = {"red":4, "green":2, "blue":1}[color]
+
+//    onColorNChanged: console.log(colorN);
+
     states: [
         State {
             name: "normal"
