@@ -6,6 +6,8 @@ Item {
     id: scene
     anchors.fill: parent
 
+    TutorialText {}
+
     Image {
         id: background
         source: "qrc:///backgrounds/images/redcave.png"
@@ -120,4 +122,6 @@ Item {
 
     focus: true
     Keys.onPressed: Game.handleKB(event);
+
+
 }

@@ -68,7 +68,8 @@ function handleColorChanged() {
     for (var b in blocks) {
         var brick = blocks[b]
         brick.state = world.color;
-        brick.visible = brick.colorN&world.colorN;
+        var visible = brick.colorN&world.colorN;
+        brick.opacity = 0.4 + visible;
     }
     handlePhysics();
     if (collidesWithBoxes(player.px, player.py)) {
@@ -140,18 +141,20 @@ function createWorld() {
 
     for (var y=0; y<map.map.length; y++) {
         for (var x=0; x<map.map[y].length; x++) {
-            if (map.map[y][x])
+            if (map.map[y][x] !== 0) {
+                var visible = map.map[y][x]&world.colorN;
                 blocks.push(
                             blockComp.createObject(
                                 world,
                                 {
                                     "bx":x,
                                     "by":y,
-                                    "opacity": map.map[y][x]&world.colorN,
+                                    "opacity": 0.4 + visible,
                                     "colorN": map.map[y][x]
                                 }
                                 )
                             );
+            }
         }
     }
 
