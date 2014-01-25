@@ -25,15 +25,21 @@ var nextLeftOrientation = {
 };
 
 function init() {
-    map = Maps.map1.map;
-
-    player.px = Maps.map1.startpos[0];
-    player.py = Maps.map1.startpos[1];
+    map = Maps.map1;
 
     world.rotatingChanged.connect(handlePhysics);
     world.colorChanged.connect(handleColorChanged);
 
     createWorld();
+    startMap();
+}
+
+function startMap() {
+    player.px = map.startpos[0];
+    player.py = map.startpos[1];
+
+    world.color = "red"
+    world.state = "normal"
 }
 
 function handleKB(event) {
@@ -71,18 +77,12 @@ function handleColorChanged() {
     }
 }
 
-function startMap() {
-    world.state = "normal"
-    world.color = "red"
-    player.px = Maps.map1.startpos[0];
-    player.py = Maps.map1.startpos[1];
-}
-
 function collidesWithBorder(px, py) {
 
     if (px < 0 || px >= Conf.gridXCount |
             py < 0 || py >= Conf.gridYCount)
     {
+        console.log("collided with border");
         startMap();
         return true;
     }
@@ -91,7 +91,7 @@ function collidesWithBorder(px, py) {
 }
 
 function collidesWithBoxes(px, py) {
-    return map[py][px]&world.colorN;
+    return map.map[py][px]&world.colorN;
 }
 
 
@@ -112,11 +112,14 @@ function handlePhysics() {
         var newPx = player.px;
         var newPy = player.py;
 
-        while(!collidesWithBorder(newPx + ddir[0], newPy + ddir[1]) &&
-            !collidesWithBoxes(newPx + ddir[0], newPy + ddir[1])) {
+        var noBorderCollide;
+
+        while(noBorderCollide = !collidesWithBorder(newPx + ddir[0], newPy + ddir[1]) &&
+              !collidesWithBoxes(newPx + ddir[0], newPy + ddir[1])) {
             newPx += ddir[0];
             newPy += ddir[1];
         }
+
         player.px = newPx;
         player.py = newPy;
     }
@@ -125,17 +128,17 @@ function handlePhysics() {
 function createWorld() {
     blockComp = Qt.createComponent("Block.qml");
 
-    for (var y=0; y<map.length; y++) {
-        for (var x=0; x<map[y].length; x++) {
-            if (map[y][x])
+    for (var y=0; y<map.map.length; y++) {
+        for (var x=0; x<map.map[y].length; x++) {
+            if (map.map[y][x])
                 blocks.push(
                             blockComp.createObject(
                                 world,
                                 {
                                     "bx":x,
                                     "by":y,
-                                    "visible": map[y][x]&world.colorN,
-                                    "colorN": map[y][x]
+                                    "visible": map.map[y][x]&world.colorN,
+                                    "colorN": map.map[y][x]
                                 }
                                 )
                             );

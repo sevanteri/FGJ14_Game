@@ -13,12 +13,12 @@ Rectangle {
     x: px*Conf.gridWidth
     y: py*Conf.gridHeight
 
-//    property bool moving: false
     property bool moving: false
 
     color: "#C00"
 
     Behavior on x {
+        id: xBehavior
         PropertyAnimation {
             id:xAnim
             duration: 100
@@ -29,6 +29,7 @@ Rectangle {
 
     }
     Behavior on y {
+        id: yBehavior
         PropertyAnimation {
             id:yAnim
             duration: 100
@@ -37,6 +38,14 @@ Rectangle {
             }
         }
     }
+
+    function enableAnimations() {
+        xBehavior.enabled = yBehavior.enabled = true;
+    }
+    function disableAnimations() {
+        xBehavior.enabled = yBehavior.enabled = false;
+    }
+
 
 //    onMovingChanged: { console.log(moving); }
 

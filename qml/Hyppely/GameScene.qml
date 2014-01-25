@@ -6,15 +6,24 @@ Item {
     id: scene
     anchors.fill: parent
 
-    World {
-        id: world
+    Component {
+        World {
+            id: world
 
-        Player {
-            id: player
-            width: Conf.gridWidth
-            height: width
-            px: 6
-            py: 14
+            Player {
+                id: player
+                width: Conf.gridWidth
+                height: width
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    player.px = mouseX/Conf.gridWidth;
+                    player.py = mouseY/Conf.gridHeight;
+                }
+                enabled: true
+            }
         }
     }
 
