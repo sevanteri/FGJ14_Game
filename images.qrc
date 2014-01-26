@@ -7,4 +7,7 @@
     <qresource prefix="/backgrounds">
         <file>images/redcave.png</file>
     </qresource>
+    <qresource prefix="/sounds">
+        <file>sounds/Dream Culture.mp3</file>
+    </qresource>
 </RCC>

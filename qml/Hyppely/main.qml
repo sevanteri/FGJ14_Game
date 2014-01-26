@@ -28,6 +28,10 @@ Rectangle {
             title: "Restart"
             action: "scene.restart()"
         }
+        ListElement {
+            title: "Mute music"
+            action: "scene.toggleMusic()"
+        }
     }
 
 

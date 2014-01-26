@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import QtMultimedia 5.0
 
 import "Game.js" as Game
 import "Config.js" as Conf
@@ -7,6 +8,13 @@ Item {
 
     width: 24*Conf.gridWidth
     height: 24*Conf.gridHeight
+
+    Audio {
+        id: musicPlayer
+        autoLoad: true
+        autoPlay: true
+        source: "qrc:///sounds/sounds/Dream Culture.mp3"
+    }
 
     Image {
         id: background
@@ -116,6 +124,13 @@ Item {
     function showWinText() {
         winText.visible = true;
         winAnim.start();
+    }
+
+    function toggleMusic() {
+        if (musicPlayer.playbackState === Audio.PausedState)
+            musicPlayer.play();
+        else
+            musicPlayer.pause();
     }
 
     focus: true
