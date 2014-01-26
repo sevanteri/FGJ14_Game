@@ -2,7 +2,7 @@ import QtQuick 2.0
 
 Rectangle {
     id: screen
-    width: 1000
+    width: 920
     height: 600
     color: "black"
 
@@ -12,7 +12,8 @@ Rectangle {
     GameScene {
         id: scene
 
-        x: screen.width/2 - width/2
+        x: (screen.width>920) ? screen.width/2 - width/2 :
+                                 screen.width - width
         y: screen.height/2 - height/2
     }
 
