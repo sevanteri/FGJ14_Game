@@ -5,6 +5,7 @@ var map;
 var blockComp;
 var blocks = [];
 var endBlock;
+var nextMap = 0;
 
 var downDir = {
     "normal": [0, 1],
@@ -28,12 +29,21 @@ var nextLeftOrientation = {
 function init() {
     world.rotatingChanged.connect(handlePhysics);
     world.colorChanged.connect(handleColorChanged);
-    startMap(0);
+
+    winAnim.runningChanged.connect(function() {
+        if (!winAnim.running) {
+            startMap(nextMap);
+            createWorld();
+        }
+    })
+
+    startMap(nextMap);
     createWorld();
 }
 
 function startMap(n) {
     map = Maps.maps[n];
+    nextMap++;
 
     player.disableAnimations();
     player.px = map.startpos[0];
@@ -86,7 +96,7 @@ function collidesWithBorder(px, py) {
             py < 0 || py >= Conf.gridYCount)
     {
         console.log("collided with border");
-        startMap();
+//        startMap();
         return true;
     }
 
@@ -137,6 +147,7 @@ function handlePhysics() {
 }
 
 function createWorld() {
+    destroyWorld();
     blockComp = Qt.createComponent("Block.qml");
 
     for (var y=0; y<map.map.length; y++) {
@@ -164,5 +175,12 @@ function createWorld() {
                                   "x": map.endpos[0]*Conf.gridWidth,
                                   "y": map.endpos[1]*Conf.gridHeight
                               });
-
+}
+function destroyWorld() {
+    for (var b in blocks) {
+        if (blocks[b])
+            blocks[b].destroy();
+    }
+    if (endBlock)
+        endBlock.destroy();
 }

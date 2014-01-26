@@ -4,9 +4,9 @@ import "Game.js" as Game
 import "Config.js" as Conf
 Item {
     id: scene
-    anchors.fill: parent
 
-    TutorialText {}
+    width: 24*Conf.gridWidth
+    height: 24*Conf.gridHeight
 
     Image {
         id: background
@@ -106,7 +106,6 @@ Item {
                 duration: 1000
             }
         }
-
     }
 
 
@@ -117,7 +116,6 @@ Item {
     function showWinText() {
         winText.visible = true;
         winAnim.start();
-
     }
 
     focus: true

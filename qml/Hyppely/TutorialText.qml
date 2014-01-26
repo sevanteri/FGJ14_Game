@@ -4,20 +4,10 @@ Item {
     anchors.fill: parent
 
     Text {
-        x: parent.width/8
+        x: 25
         y: parent.height/2 - height/2
-        text: "Z: RED\nX: GREEN\nC: BLUE"
+        text: "Z: RED\nX: GREEN\nC: BLUE\n\nLeft: COUNTER-CLOCKWISE\nRight: CLOCKWISE"
         font.pointSize: 20
         color: "white"
-    }
-
-
-    Text {
-        x: parent.width/8*6
-        y: parent.height/2 - height/2
-
-        font.pointSize: 20
-        color: "white"
-        text: "Left: COUNTER-CLOCKWISE\nRight: CLOCKWISE"
     }
 }
