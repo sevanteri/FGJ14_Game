@@ -9,13 +9,6 @@ Item {
     width: 24*Conf.gridWidth
     height: 24*Conf.gridHeight
 
-    Audio {
-        id: musicPlayer
-        autoLoad: true
-        autoPlay: true
-        source: "qrc:///sounds/sounds/Dream Culture.mp3"
-    }
-
     Image {
         id: background
         source: "qrc:///backgrounds/images/redcave.png"
@@ -32,14 +25,14 @@ Item {
                 name: "blue"
                 PropertyChanges {
                     target: background
-                    source: "qrc:///backgrounds/images/redcave.png"
+                    source: "qrc:///backgrounds/images/bluebg.png"
                 }
             },
             State {
                 name: "green"
                 PropertyChanges {
                     target: background
-                    source: "qrc:///backgrounds/images/redcave.png"
+                    source: "qrc:///backgrounds/images/greenbg.png"
                 }
             }
         ]
@@ -116,14 +109,52 @@ Item {
         }
     }
 
+    Text {
+        id: completeText
+        text: "Congratulations!!\nThat's it!\n Good bye!"
+        visible: false
+        color: "white"
+
+        opacity: 0
+
+        anchors.centerIn: scene
+        font.pointSize: 0
+
+        SequentialAnimation {
+            id: completeAnim
+            ParallelAnimation {
+                PropertyAnimation {
+                    target: completeText
+                    property: "font.pointSize"
+
+                    from: 1
+                    to: 100
+                }
+                PropertyAnimation {
+                    target: completeText
+                    property: "opacity"
+                    from: 0
+                    to: 1
+                }
+            }
+        }
+    }
 
     function restart() {
+        completeText.visible = false;
+        Game.nextMap = 0;
         Game.startMap(0);
+        Game.createWorld();
     }
 
     function showWinText() {
         winText.visible = true;
         winAnim.start();
+    }
+
+    function showCompletedText() {
+        completeText.visible = true;
+        completeAnim.start();
     }
 
     function toggleMusic() {

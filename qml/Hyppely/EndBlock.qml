@@ -2,10 +2,17 @@ import QtQuick 2.0
 
 import "Config.js" as Conf
 
-Rectangle {
+Image {
     width: Conf.gridWidth
     height: Conf.gridHeight
 
-    color: "#55F"
-    opacity: 0.5
+    source: "qrc:///bricks/images/end.png"
+
+    PropertyAnimation on rotation{
+        running: true;
+        from: 0
+        to: 359
+        duration: 1000
+        loops: RotationAnimation.Infinite
+    }
 }

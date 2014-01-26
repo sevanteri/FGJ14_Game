@@ -6,6 +6,7 @@ var blockComp;
 var blocks = [];
 var endBlock;
 var nextMap = 0;
+var mapCount = Maps.maps.length;
 
 var downDir = {
     "normal": [0, 1],
@@ -32,8 +33,14 @@ function init() {
 
     winAnim.runningChanged.connect(function() {
         if (!winAnim.running) {
-            startMap(nextMap);
-            createWorld();
+            if (nextMap === mapCount) {
+                scene.showCompletedText();
+            } else {
+                startMap(nextMap);
+                createWorld();
+
+            }
+
         }
     })
 
@@ -56,9 +63,9 @@ function startMap(n) {
 
 function handleKB(event) {
     if (!player.moving) {
-        if (event.key === Qt.Key_Z) turnRed();
-        else if (event.key === Qt.Key_X) turnGreen();
-        else if (event.key === Qt.Key_C) turnBlue();
+        if (event.key === Qt.Key_1) turnRed();
+        else if (event.key === Qt.Key_2) turnGreen();
+        else if (event.key === Qt.Key_3) turnBlue();
 
         else if (event.key === Qt.Key_Left) handleRotateLeft();
         else if (event.key === Qt.Key_Right) handleRotateRight();
@@ -178,9 +185,10 @@ function createWorld() {
 }
 function destroyWorld() {
     for (var b in blocks) {
-        if (blocks[b])
+        if (blocks[b] && typeof(blocks[b]) !== 'TypeError')
             blocks[b].destroy();
     }
+    blocks = [];
     if (endBlock)
         endBlock.destroy();
 }
