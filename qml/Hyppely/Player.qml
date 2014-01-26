@@ -2,7 +2,7 @@ import QtQuick 2.0
 
 import "Config.js" as Conf
 
-Rectangle {
+Image {
     id: player
 
     property int px;
@@ -15,7 +15,7 @@ Rectangle {
 
     property bool moving: false
 
-    color: "#C00"
+    source: "qrc:///bricks/images/dude.png"
 
     Behavior on x {
         id: xBehavior
@@ -46,13 +46,25 @@ Rectangle {
         xBehavior.enabled = yBehavior.enabled = false;
     }
 
+    SequentialAnimation on height {
+        id: squeezeAnim
+        running: false
+        PropertyAnimation{
+            target: player
+            property: "height"
+            to: height*0.8
+            duration: 100
+        }
+        PropertyAnimation{
+            target: player
+            property: "height"
+            to: Conf.gridHeight
+            duration: 100
+        }
+    }
+    onMovingChanged: {
+        if (!moving) squeezeAnim.start();
+    }
 
 //    onMovingChanged: { console.log(moving); }
-
-    Rectangle {
-        width: parent.width*0.5;
-        height: parent.height*0.5;
-        anchors.centerIn: parent
-        color: "black"
-    }
 }

@@ -27,6 +27,13 @@ var nextLeftOrientation = {
     "right":"normal"
 };
 
+var playerRotations = {
+    "normal": 0,
+    "left": 90,
+    "inverted": 180,
+    "right": 270
+}
+
 function init() {
     world.rotatingChanged.connect(handlePhysics);
     world.colorChanged.connect(handleColorChanged);
@@ -55,6 +62,7 @@ function startMap(n) {
     player.disableAnimations();
     player.px = map.startpos[0];
     player.py = map.startpos[1];
+    player.rotation = 0;
 
     world.color = "red"
     world.state = "normal"
@@ -122,10 +130,12 @@ function isAtEnd() {
 function handleRotateLeft() {
     world.turningLeft = true;
     world.state = nextLeftOrientation[world.state];
+    player.rotation = playerRotations[world.state];
 }
 function handleRotateRight() {
     world.turningLeft = false;
     world.state = nextRightOrietation[world.state];
+    player.rotation = playerRotations[world.state];
 }
 
 
