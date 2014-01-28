@@ -78,7 +78,7 @@ Item {
         opacity: 0
 
         anchors.centerIn: scene
-        font.pointSize: 0
+        font.pointSize: 1
 
         SequentialAnimation {
             id: winAnim
@@ -118,7 +118,7 @@ Item {
         opacity: 0
 
         anchors.centerIn: scene
-        font.pointSize: 0
+        font.pointSize: 1
 
         SequentialAnimation {
             id: completeAnim
